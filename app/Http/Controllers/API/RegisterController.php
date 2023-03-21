@@ -59,7 +59,7 @@ class RegisterController extends BaseController
             return response(['message' => 'Invalid Credentials']);
         }
         
-        $accessToken = auth()->user()->createToken('authToken')->accessToken;
+        $accessToken = auth()->user()->createToken(time())->plainTextToken;
 
         return response(['user' => auth()->user(), 'access_token' => $accessToken, 'message' => 'Login successfully'], 200);        
         
