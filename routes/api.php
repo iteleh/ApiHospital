@@ -25,6 +25,9 @@ Route::group(['prefix' => 'auth'], function () {
 
 Route::apiResource('/appointments', 'App\Http\Controllers\API\AppointmentController');
 
+Route::get('/payments', 'App\Http\Controllers\API\PaymentController@index');
+Route::post('/payments', 'App\Http\Controllers\API\PaymentController@store');
+
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });

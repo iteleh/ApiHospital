@@ -16,3 +16,6 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+
+Route::post('/flutter/webhook', 'App\Http\Controllers\API\PaymentController@flutterHandleWebhook');
+Route::post('/paystack/webhook', 'App\Http\Controllers\API\PaymentController@PaystackHandleWebhook');
