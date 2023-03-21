@@ -41,5 +41,41 @@ class PaymentTest extends TestCase
             ->assertStatus(200)
             ->assertJsonStructure(["message"]);
     }
+
+    public function testSuccessfulFlutterwavePayment()
+    {
+        $payload = [
+            "event" => "payment.completed",
+            "data"=> [
+                "amount" => "5000",
+                "customer" => [
+                    "email" => "iteleh97@gmail.com",
+                ],
+            ],
+        ];
+
+        
+
+        $this->postJson('/flutter/webhook', $payload)
+            ->assertStatus(200);
+    }
+
+    public function testSuccessfulPaystackPayment()
+    {
+        $payload = [
+            "event" => "charge.success",
+            "data"=> [
+                "amount" => "5000",
+                "customer" => [
+                    "email" => "iteleh97@gmail.com",
+                ],
+            ],
+        ];
+
+        
+
+        $this->postJson('/paystack/webhook', $payload)
+            ->assertStatus(200);
+    }
    
 }
