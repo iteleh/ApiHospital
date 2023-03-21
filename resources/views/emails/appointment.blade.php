@@ -4,14 +4,16 @@
 
 Your appointment booking details
 <br><br>
-Date: $appointment->appointment_date <br><br>
-Time: $appointment->appointment_time <br><br>
-Location: $appointment->contact_address <br><br>
-@if($appointment->status == 1)
+Date: {{ $appointment->appointment_date }}<br><br>
+Time: {{$appointment->appointment_time }}<br><br>
+Location: {{$appointment->contact_address}} <br><br>
+@if($appointment->status == "1")
 Status: Pending
-@elseif($appointment->status == 2)
+@endif
+@if($appointment->status == "2")
 Status: Ready
-@else
+@endif
+@if($appointment->status == "3")
 Status: Cancelled
 @endif
 
