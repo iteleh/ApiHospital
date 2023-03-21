@@ -23,6 +23,8 @@ Route::group(['prefix' => 'auth'], function () {
     Route::post('login', 'App\Http\Controllers\API\RegisterController@login');
 });
 
+Route::apiResource('/appointments', 'App\Http\Controllers\API\AppointmentController');
+
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
