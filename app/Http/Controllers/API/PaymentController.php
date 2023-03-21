@@ -58,9 +58,9 @@ class PaymentController extends Controller
             $email = $paymentData['data']['customer']['email'];
 
             $user = User::where('email', $email)->first();
-            $payment = Payment::where('user_id', $user->id)->where('status', 'Pending')->first();
+            $payment = Payment::where('user_id', $user->id)->where('status', 'Pending')->where('payment_type_id',2)->first();
 
-            if($payment->payment_type_id == 1){
+           
                 $booking = appointment_booking::find($payment->appointment_id);
 
                 $payment->status = "Paid";
@@ -72,7 +72,7 @@ class PaymentController extends Controller
 
                 Mail::to($user->email)->send(new PaymentEmail($user, $payment, "Payment Received"));
                 Mail::to($user->email)->send(new AppointmentEmail($user, $booking, "Payment has been received"));
-            }
+            
 
         } 
         else if ($paymentData['event'] === 'payment.failed') {
@@ -81,17 +81,17 @@ class PaymentController extends Controller
             $email = $paymentData['data']['customer']['email'];
 
             $user = User::where('email', $email)->first();
-            $payment = Payment::where('user_id', $user->id)->where('status', 'Pending')->first();
+            $payment = Payment::where('user_id', $user->id)->where('status', 'pending')->where('payment_type_id',2)->first();
 
-            if($payment->payment_type_id == 1){
-                $booking = appointment_booking::find($payment->appointment_id);
-                Mail::to($user->email)->send(new PaymentEmail($user, $payment, "Payment Cancelled"));
-            }
+           
+            $booking = appointment_booking::find($payment->appointment_id);
+            Mail::to($user->email)->send(new PaymentEmail($user, $payment, "Payment Cancelled"));
+            
         }
 
     }
 
-    public function PaystackHandleWebhook(Request $request)
+   public function PaystackHandleWebhook(Request $request)
    {
         $paymentData = $request->all();
 
@@ -100,21 +100,21 @@ class PaymentController extends Controller
             $email = $paymentData['data']['customer']['email'];
 
             $user = User::where('email', $email)->first();
-            $payment = Payment::where('user_id', $user->id)->where('status', 'Pending')->first();
+            $payment = Payment::where('user_id', $user->id)->where('status', 'pending')->where('payment_type_id',2)->first();
 
-            if ($payment->payment_type_id == 2){
-                $booking = appointment_booking::find($payment->appointment_id);
+            
+            $booking = appointment_booking::find($payment->appointment_id);
 
-                $payment->status = "Paid";
-                $payment->save();
+            $payment->status = "Paid";
+            $payment->save();
 
 
-                $booking->status = 2;
-                $booking->save();
+            $booking->status = 2;
+            $booking->save();
 
-                Mail::to($user->email)->send(new PaymentEmail($user, $payment, "Payment Received"));
-                Mail::to($user->email)->send(new AppointmentEmail($user, $booking, "Payment has been received"));
-            }
+            Mail::to($user->email)->send(new PaymentEmail($user, $payment, "Payment Received"));
+            Mail::to($user->email)->send(new AppointmentEmail($user, $booking, "Payment has been received"));
+            
 
         } 
     }

@@ -79,19 +79,7 @@ class PaymentTest extends TestCase
     }
     
     public function testSuccessfulListedPayment()
-    {
-        $payload = [
-            "event" => "charge.success",
-            "data"=> [
-                "amount" => "5000",
-                "customer" => [
-                    "email" => "iteleh97@gmail.com",
-                ],
-            ],
-        ];
-
-        
-
+    {       
         $this->Json('GET','/api/payments', ['Accept' => 'application/json'])
             ->assertStatus(200);
     }
