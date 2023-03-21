@@ -77,5 +77,24 @@ class PaymentTest extends TestCase
         $this->postJson('/paystack/webhook', $payload)
             ->assertStatus(200);
     }
+    
+    public function testSuccessfulListedPayment()
+    {
+        $payload = [
+            "event" => "charge.success",
+            "data"=> [
+                "amount" => "5000",
+                "customer" => [
+                    "email" => "iteleh97@gmail.com",
+                ],
+            ],
+        ];
+
+        
+
+        $this->Json('GET','/api/payments', ['Accept' => 'application/json'])
+            ->assertStatus(200);
+    }
+
    
 }

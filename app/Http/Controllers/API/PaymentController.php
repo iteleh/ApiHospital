@@ -12,6 +12,7 @@ use App\Models\appointment_booking;
 use App\Models\payment;
 use App\Models\payment_plan;
 use App\Models\payment_type;
+use App\Http\Resources\PaymentCollection;
 use Carbon\Carbon;
 use KingFlamez\Rave\Facades\Rave as Flutterwave;
 use Validator;
@@ -21,7 +22,7 @@ class PaymentController extends Controller
     public function index()
     {
         $payment = payment::get();
-        return $this->sendResponse(PaymentCollection::collection($payment), 'Payment retrieved successfully.');
+        return response()->json([PaymentCollection::collection($payment), 'Payment retrieved successfully.'], 200);
     }
 
     public function store(Request $request)
